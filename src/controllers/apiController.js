@@ -48,9 +48,11 @@ async function newRegister( req, res){
             range:'Telus!A'+toEdit,
             valueInputOption:'USER_ENTERED',
             resource:{values: newDataArray}
-        };
-    let res = await gsapi.spreadsheets.values.update(updateOptions);
-        console.log(res);
+        };    
+        let resp = await gsapi.spreadsheets.values.update(updateOptions);
+        console.log(resp);
+        return res.status(200).send({record:dataArr});
+
     }else{
         console.log("Ha ocurrido un error");
     }
