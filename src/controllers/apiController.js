@@ -28,7 +28,7 @@ async function newRegister( req, res){
     let data = await gsapi.spreadsheets.values.get(opt);
     var toEdit = (data.data.values.length)+=1;
     if(params.name && params.lastName && params.employeeId && params.nit && params.phone && params.mail && 
-        params.address && params.dpi && params.payment && params.company && params.date && toEdit!=0){
+        params.address && params.dpi && params.payment && params.company && params.date && toEdit>0){
         let dataArr = [[ params.name,
         params.lastName,
         params.employeeId,
