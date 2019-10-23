@@ -7,5 +7,6 @@ var api = express.Router();
 
 
 api.post('/addRecord', apiController.newRegister);
+api.get('/getRecords', apiController.getRecords)
 
 module.exports = api;

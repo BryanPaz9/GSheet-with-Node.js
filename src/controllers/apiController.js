@@ -28,7 +28,6 @@ async function newRegister( req, res){
     let data = await gsapi.spreadsheets.values.get(opt);
     var toEdit = (data.data.values.length)+=1;
     if(toEdit!=0){
-        let dataArray = data.data.values;
         let dataArr = [[ params.nombre,
         params.apellido,
         params.codigoEmpleado,
@@ -58,6 +57,18 @@ async function newRegister( req, res){
     }
 }
 
+async function getRecords(req, res){
+    const gsapi = google.sheets({version:'v4', auth: CLIENT});
+    const opt ={
+        spreadsheetId:'1gxu_giseLUD7D1H8Vuts2Tzs5-ecCBz44z6fDQkUkjk',
+        range:'Telus!A:K'
+    };
+    let data = await gsapi.spreadsheets.values.get(opt);
+    const resp = data.data.values;
+    return res.status(200).send({records:resp})
+}
+
 module.exports ={
-    newRegister
+    newRegister,
+    getRecords
 }
