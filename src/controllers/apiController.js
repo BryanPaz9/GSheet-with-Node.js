@@ -13,7 +13,7 @@ CLIENT.authorize(function(err, tokens){
         console.log(err);
         return;
     }else{
-        console.log('Connected!!')
+        console.log('Connected With Google Sheets!!')
     }
     
 });
@@ -28,19 +28,19 @@ async function newRegister( req, res){
     let data = await gsapi.spreadsheets.values.get(opt);
     var toEdit = (data.data.values.length)+=1;
     if(toEdit!=0){
-        let dataArr = [[ params.nombre,
-        params.apellido,
-        params.codigoEmpleado,
+        let dataArr = [[ params.name,
+        params.lastName,
+        params.employeeId,
         params.nit,
-        params.telefono,
-        params.email,
-        params.direccion,
+        params.phone,
+        params.mail,
+        params.address,
         params.dpi,
-        params.pago,
-        params.empresa,
-        params.fecha ]];
-        let newDataArray = dataArr.map(function(r){
-            return r;
+        params.payment,
+        params.company,
+        params.date ]];
+        let newDataArray = dataArr.map(function(makeRecord){
+            return makeRecord;
         });
         const updateOptions = {
             spreadsheetId:'1gxu_giseLUD7D1H8Vuts2Tzs5-ecCBz44z6fDQkUkjk',
@@ -53,7 +53,7 @@ async function newRegister( req, res){
         return res.status(200).send({record:dataArr});
 
     }else{
-        console.log("Ha ocurrido un error");
+        console.log("An error has ocurred");
     }
 }
 
