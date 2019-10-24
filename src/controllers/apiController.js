@@ -18,6 +18,7 @@ CLIENT.authorize(function(err, tokens){
     
 });
 
+
 async function newRegister( req, res){
     var params = req.body;
     const gsapi = google.sheets({version:'v4', auth: CLIENT});
@@ -25,39 +26,44 @@ async function newRegister( req, res){
         spreadsheetId:'1gxu_giseLUD7D1H8Vuts2Tzs5-ecCBz44z6fDQkUkjk',
         range:'Telus!A:K'
     };
-    let data = await gsapi.spreadsheets.values.get(opt);
-    var toEdit = (data.data.values.length)+=1;
-    if(params.name && params.lastName && params.employeeId && params.nit && params.phone && params.mail && 
-        params.address && params.dpi && params.payment && params.company && params.date && params.account && toEdit>0){
-        let dataArr = [[ params.name,
-        params.lastName,
-        params.employeeId,
-        params.nit,
-        params.phone,
-        params.mail,
-        params.address,
-        params.dpi,
-        params.payment,
-        params.company,
-        params.date, 
-        params.account ]];
-        let newDataArray = dataArr.map(function(makeRecord){
-            return makeRecord;
-        });
-        const updateOptions = {
-            spreadsheetId:'1gxu_giseLUD7D1H8Vuts2Tzs5-ecCBz44z6fDQkUkjk',
-            range:'Telus!A'+toEdit,
-            valueInputOption:'USER_ENTERED',
-            resource:{values: newDataArray}
-        };    
-        let resp = await gsapi.spreadsheets.values.update(updateOptions);
-        console.log(resp);
-        return res.status(200).send({record:dataArr});
-
-    }else{
-        console.log("Complete all fields");
-        return res.status(500).send({message:'Complete all fields'});
+    try {
+        let data = await gsapi.spreadsheets.values.get(opt);
+        var toEdit = (data.data.values.length)+=1;
+        if(params.name && params.lastName && params.employeeId && params.nit && params.phone && params.mail && 
+            params.address && params.dpi && params.payment && params.company && params.date && params.account && toEdit>0){
+            let dataArr = [[ params.name,
+            params.lastName,
+            params.employeeId,
+            params.nit,
+            params.phone,
+            params.mail,
+            params.address,
+            params.dpi,
+            params.payment,
+            params.company,
+            params.date, 
+            params.account ]];
+            let newDataArray = dataArr.map(function(makeRecord){
+                return makeRecord;
+            });
+            const updateOptions = {
+                spreadsheetId:'1gxu_giseLUD7D1H8Vuts2Tzs5-ecCBz44z6fDQkUkjk',
+                range:'Telus!A'+toEdit,
+                valueInputOption:'USER_ENTERED',
+                resource:{values: newDataArray}
+            };    
+            let resp = await gsapi.spreadsheets.values.update(updateOptions);
+            console.log(resp);
+            return res.status(200).send({record:dataArr});
+    
+        }else{
+            console.log("Complete all fields");
+            return res.status(500).send({message:'Complete all fields'});
+        }        
+    } catch (error) {
+        return res.status(500).send({error});
     }
+
 }
 
 async function getRecords(req, res){
