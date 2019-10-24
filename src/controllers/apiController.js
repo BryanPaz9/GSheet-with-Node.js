@@ -28,7 +28,7 @@ async function newRegister( req, res){
     let data = await gsapi.spreadsheets.values.get(opt);
     var toEdit = (data.data.values.length)+=1;
     if(params.name && params.lastName && params.employeeId && params.nit && params.phone && params.mail && 
-        params.address && params.dpi && params.payment && params.company && params.date && toEdit>0){
+        params.address && params.dpi && params.payment && params.company && params.date && params.account && toEdit>0){
         let dataArr = [[ params.name,
         params.lastName,
         params.employeeId,
@@ -39,7 +39,8 @@ async function newRegister( req, res){
         params.dpi,
         params.payment,
         params.company,
-        params.date ]];
+        params.date, 
+        params.account ]];
         let newDataArray = dataArr.map(function(makeRecord){
             return makeRecord;
         });
@@ -63,7 +64,7 @@ async function getRecords(req, res){
     const gsapi = google.sheets({version:'v4', auth: CLIENT});
     const opt ={
         spreadsheetId:'1gxu_giseLUD7D1H8Vuts2Tzs5-ecCBz44z6fDQkUkjk',
-        range:'Telus!A:K'
+        range:'Telus!A:L'
     };
     let data = await gsapi.spreadsheets.values.get(opt);
     const resp = data.data.values;
