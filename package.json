@@ -17,6 +17,7 @@
     "googleapis": "^39.2.0",
     "moment": "^2.24.0",
     "mongoose": "^5.7.6",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "pdfmake": "^0.1.60"
   }
 }
